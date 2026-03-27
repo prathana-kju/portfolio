@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const { Pool } = require('pg');
 const cors = require('cors');
 require('dotenv').config();
@@ -79,7 +80,12 @@ app.get('/api/health', (req, res) => {
 });
 
 // Serve static files from frontend folder
-app.use(express.static('../frontend'));
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+// Serve index.html for root path
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
 
 // Start the server
 app.listen(PORT, '0.0.0.0', async () => {
